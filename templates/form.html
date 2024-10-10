@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Categories</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+                body {
+            font-family: 'Arial', sans-serif;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 {
+            color: black;
+            text-align: left;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .option {
+            background-color: white;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .option:hover {
+            border-color: #049669;
+        }
+        .option.selected {
+            background-color: #e6f7f2;
+            border-color: #049669;
+        }
+        .option .material-icons {
+            margin-right: 10px;
+            color: #049669;
+        }
+        .continue-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #049669;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .continue-btn:hover {
+            background-color: #0db981;
+        }
+        #nextPage {
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+    <div id="categoryPage" class="container">
+        <h1>Select all categories that apply to you</h1>
+        <form id="categoryForm" method="POST" action="{{ url_for('submit') }}">
+            <div class="options">
+                <div class="option" onclick="toggleSelection(this)">
+                    <i class="material-icons">home</i>
+                    <input type="hidden" name="firstTimeHomeBuyer" value="false">
+                    education
+                </div>
+                <div class="option" onclick="toggleSelection(this)">
+                    <i class="material-icons">military_tech</i>
+                    <input type="hidden" name="veteranMilitary" value="false">
+                    law enforcement
+                </div>
+                <div class="option" onclick="toggleSelection(this)">
+                    <i class="material-icons">local_hospital</i>
+                    <input type="hidden" name="doctor" value="false">
+                    firefighter
+                </div>
+                <div class="option" onclick="toggleSelection(this)">
+                    <i class="material-icons">local_fire_department</i>
+                    <input type="hidden" name="firefighter" value="false">
+                    healthcare
+                </div>
+            </div>
+            <button type="submit" class="continue-btn">Continue</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleSelection(element) {
+            element.classList.toggle('selected');
+            const input = element.querySelector('input[type="hidden"]');
+            input.value = element.classList.contains('selected');
+        }
+
+        document.getElementById('categoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            fetch('{{ url_for("submit") }}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Form submitted successfully!');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the form.');
+            });
+        });
+    </script>
+</body>
+</html>
