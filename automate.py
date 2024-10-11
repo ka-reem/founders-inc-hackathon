@@ -46,15 +46,15 @@ def submit():
 
     # interact with website using users form data
     if first_time_home_buyer:
-        web.find_element('xpath', '//*[@id="property"]/fieldset[1]/div[2]/div[1]/label').click()  # law
+        web.find_element('xpath', '//*[@id="additional"]/fieldset[3]/div/div[1]/label').click()  # law
     if veteran_military:
-        web.find_element('xpath', '//*[@id="additional"]/fieldset[3]/div/div[1]/label').click()  # education
+        web.find_element('xpath', '//*[@id="additional"]/fieldset[3]/div/div[2]/label').click()  # education
     if doctor:
         web.find_element('xpath', '//*[@id="additional"]/fieldset[3]/div/div[3]/label').click()  # firefighter
     if firefighter:
         web.find_element('xpath', '//*[@id="additional"]/fieldset[3]/div/div[4]/label').click()  # healthcare
 
-    time.sleep(5) # time before it submits the form
+    time.sleep(500) # time before it submits the form
     return jsonify({"message": "Data received and website automated successfully"})
 
 
